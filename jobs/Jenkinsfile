@@ -1,0 +1,30 @@
+import groovy.json.JsonSluperClassic
+
+def jsonParse(def json){
+    new groovy.json.JsonSluperClassic().parseText(json)
+}
+pipeline{
+    agent {label 'master'}
+    environment{
+        appName = "variable"
+    }
+    stages {
+        stage{
+            script {
+                sh "echo 'Hola mundo'"
+            }
+        }
+    }
+    post{
+        always {
+            deleteDir()
+            sh "echo 'false always'"
+        }
+        sucess {
+            sh "echo 'fase sucess'"
+        }
+        failure {
+            sh "echo 'fase failure'"
+        }
+    }
+}
